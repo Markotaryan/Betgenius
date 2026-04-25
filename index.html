@@ -3,711 +3,182 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BetGenius AI — Tips de Apuestas con IA</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>BetGenius AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #07070f;
-  --surface: rgba(255,255,255,0.035);
-  --border: rgba(255,255,255,0.07);
-  --purple: #7c3aed;
-  --purple-light: #a78bfa;
-  --green: #00e87a;
-  --gold: #f5a623;
-  --orange: #ff6b35;
-  --text: #f0f0f8;
-  --muted: rgba(255,255,255,0.4);
-  --dim: rgba(255,255,255,0.18);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-h1,h2,h3 { font-family: 'Syne', sans-serif; }
-
-/* HEADER */
-header {
-  background: rgba(7,7,15,0.92);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 100;
-  padding: 0 20px;
-}
-.header-inner {
-  max-width: 820px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 0 10px;
-}
-.logo { display: flex; align-items: center; gap: 11px; }
-.logo-icon {
-  width: 42px; height: 42px; border-radius: 13px;
-  background: linear-gradient(135deg, #7c3aed, #4338ca);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; box-shadow: 0 4px 24px rgba(124,58,237,0.4);
-  flex-shrink: 0;
-}
-.logo-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
-.logo-text span { color: var(--purple-light); }
-.logo-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.badge {
-  font-size: 9px; background: linear-gradient(90deg, #7c3aed, #4338ca);
-  padding: 2px 7px; border-radius: 20px; font-weight: 700; letter-spacing: 1px;
-  vertical-align: middle; margin-left: 6px;
-}
-.tabs { display: flex; gap: 2px; padding-top: 2px; }
-.tab-btn {
-  background: none; border: none; border-bottom: 2px solid transparent;
-  color: var(--muted); padding: 9px 14px; cursor: pointer;
-  font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif;
-  border-radius: 8px 8px 0 0; transition: all 0.2s;
-}
-.tab-btn.active { color: var(--purple-light); border-bottom-color: var(--purple); background: rgba(124,58,237,0.12); }
-
-/* MAIN */
-main { max-width: 820px; margin: 0 auto; padding: 22px 20px 60px; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
-
-/* HERO */
-.hero {
-  text-align: center; padding: 56px 20px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.12) 0%, transparent 70%);
-  border-radius: 24px; border: 1px solid rgba(124,58,237,0.14); margin-bottom: 24px;
-}
-.hero-icon { font-size: 58px; margin-bottom: 18px; display: block; }
-.hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-.hero p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 400px; margin: 0 auto 10px; }
-.hero-leagues { color: var(--dim); font-size: 13px; margin-bottom: 28px; }
-.btn-primary {
-  background: linear-gradient(135deg, #7c3aed, #4338ca);
-  border: none; color: white; padding: 15px 42px;
-  border-radius: 14px; font-size: 16px; font-weight: 700;
-  cursor: pointer; font-family: 'Syne', sans-serif;
-  box-shadow: 0 8px 32px rgba(124,58,237,0.38);
-  transition: all 0.25s; display: inline-flex; align-items: center; gap: 10px;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(124,58,237,0.45); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.disclaimer { margin-top: 18px; font-size: 11px; color: var(--dim); }
-
-/* STATS ROW */
-.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
-.stat-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 14px; text-align: center;
-}
-.stat-icon { font-size: 18px; }
-.stat-value { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin: 5px 0 3px; }
-.stat-label { font-size: 11px; color: var(--muted); }
-
-/* FILTERS */
-.filters { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
-.filter-btn {
-  background: rgba(255,255,255,0.05); border: none; color: var(--muted);
-  padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-}
-.filter-btn.active { background: linear-gradient(135deg, #7c3aed, #4338ca); color: white; }
-.btn-regen {
-  background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25);
-  color: var(--purple-light); padding: 7px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  transition: all 0.2s;
-}
-
-/* TIP CARD */
-.tip-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 18px; overflow: hidden; margin-bottom: 12px;
-  animation: fadeUp 0.4s ease both;
-}
-@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-.tip-accent { height: 3px; }
-.tip-body { padding: 16px 18px; }
-.tip-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.tip-left { flex: 1; }
-.tip-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; align-items: center; }
-.badge-league {
-  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px;
-}
-.badge-risk { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
-.badge-time { font-size: 11px; color: var(--dim); }
-.tip-match { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 9px; line-height: 1.3; }
-.tip-prediction {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px; border-radius: 10px; margin-bottom: 4px;
-}
-.pred-main { font-weight: 800; font-size: 15px; }
-.pred-sep { color: var(--dim); }
-.pred-type { color: var(--muted); font-size: 12px; }
-
-/* PROB CIRCLE */
-.prob-circle { flex-shrink: 0; }
-
-/* TIP FOOTER */
-.tip-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-.meta-pill {
-  background: rgba(255,255,255,0.05); border-radius: 8px;
-  padding: 6px 12px; font-size: 12px;
-}
-.meta-label { color: var(--muted); }
-.meta-val { font-weight: 700; }
-
-/* EXPAND */
-.expand-btn {
-  background: none; border: none; color: var(--dim); font-size: 12px;
-  cursor: pointer; margin-top: 10px; padding: 4px 0;
-  display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif;
-  transition: color 0.2s;
-}
-.expand-btn:hover { color: var(--muted); }
-.tip-analysis { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: none; }
-.tip-analysis.open { display: block; }
-.analysis-text { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 12px; }
-.stat-line { display: flex; gap: 8px; margin-bottom: 6px; font-size: 12px; color: rgba(255,255,255,0.4); align-items: flex-start; }
-.stat-dot { flex-shrink: 0; }
-
-/* COMBO TAB */
-.section-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-.section-sub { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
-.btn-secondary {
-  background: linear-gradient(135deg, #7c3aed, #4338ca);
-  border: none; color: white; padding: 13px 28px;
-  border-radius: 14px; font-size: 15px; font-weight: 700;
-  cursor: pointer; font-family: 'Syne', sans-serif;
-  box-shadow: 0 6px 24px rgba(124,58,237,0.3);
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-bottom: 22px; transition: all 0.25s;
-}
-.btn-secondary:hover { transform: translateY(-2px); }
-.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.combo-card {
-  background: rgba(124,58,237,0.05); border: 1px solid rgba(124,58,237,0.2);
-  border-radius: 18px; overflow: hidden;
-  animation: fadeUp 0.4s ease both;
-}
-.combo-accent { height: 3px; background: linear-gradient(90deg, #7c3aed, #4338ca, #7c3aed); }
-.combo-body { padding: 22px; }
-.combo-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
-.combo-selection {
-  background: rgba(255,255,255,0.04); border-radius: 12px;
-  padding: 12px 16px; margin-bottom: 10px;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
-}
-.sel-match { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-.sel-bet { font-size: 12px; color: var(--muted); }
-.sel-odds { color: var(--purple-light); font-weight: 800; font-size: 16px; text-align: right; }
-.sel-prob { font-size: 11px; color: var(--muted); text-align: right; }
-.combo-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 18px 0; }
-.combo-stat {
-  background: rgba(255,255,255,0.04); border-radius: 12px;
-  padding: 14px; text-align: center;
-}
-.combo-stat-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
-.combo-stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
-.analysis-box {
-  background: rgba(124,58,237,0.08); border: 1px solid rgba(124,58,237,0.15);
-  border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;
-}
-.analysis-box-title { font-size: 12px; color: var(--purple-light); font-weight: 600; margin-bottom: 6px; }
-.analysis-box p { font-size: 13px; color: var(--muted); line-height: 1.75; }
-.stake-box {
-  background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.15);
-  border-radius: 10px; padding: 10px 14px; font-size: 13px;
-}
-
-/* BANKROLL TAB */
-.bankroll-input-card {
-  background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15);
-  border-radius: 18px; padding: 22px; margin-bottom: 18px;
-}
-.input-label { font-size: 13px; color: var(--muted); margin-bottom: 12px; display: block; }
-.input-row { display: flex; align-items: center; gap: 10px; }
-.currency { font-size: 30px; color: var(--gold); }
-.bankroll-input {
-  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
-  color: white; padding: 12px 16px; border-radius: 12px;
-  font-size: 28px; font-weight: 800; font-family: 'Syne', sans-serif;
-  width: 180px; outline: none;
-}
-.stakes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
-.stake-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; padding: 16px;
-}
-.stake-icon { font-size: 20px; }
-.stake-amount { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin: 8px 0 4px; }
-.stake-name { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-.stake-desc { font-size: 11px; color: var(--dim); }
-.rules-card {
-  background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15);
-  border-radius: 14px; padding: 18px 20px; margin-bottom: 14px;
-}
-.rules-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--purple-light); margin-bottom: 12px; }
-.rule-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 13px; color: rgba(255,255,255,0.55); align-items: flex-start; }
-.rule-num { color: var(--purple); font-weight: 700; flex-shrink: 0; }
-.warning-card {
-  background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.12);
-  border-radius: 14px; padding: 14px 18px;
-}
-.warning-title { font-size: 12px; color: var(--orange); font-weight: 600; margin-bottom: 6px; }
-.warning-text { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.7; }
-
-/* EMPTY STATE */
-.empty-state {
-  text-align: center; padding: 40px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px;
-}
-.empty-icon { font-size: 36px; margin-bottom: 12px; }
-.empty-text { color: var(--muted); margin-bottom: 16px; font-size: 14px; }
-.btn-ghost {
-  background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.25);
-  color: var(--purple-light); padding: 10px 20px; border-radius: 10px;
-  cursor: pointer; font-weight: 600; font-size: 14px; font-family: 'DM Sans', sans-serif;
-  transition: all 0.2s;
-}
-
-/* SPINNER */
-.spinner {
-  width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.25);
-  border-top-color: white; border-radius: 50%;
-  animation: spin 0.7s linear infinite; display: inline-block;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* FOOTER */
-.footer-note {
-  text-align: center; margin-top: 24px; padding: 14px;
-  background: rgba(255,107,53,0.04); border: 1px solid rgba(255,107,53,0.1);
-  border-radius: 12px; font-size: 12px; color: rgba(255,255,255,0.28); line-height: 1.6;
-}
-
-/* NO TIPS */
-.no-tips { text-align: center; color: var(--muted); padding: 30px; font-size: 14px; }
-
-@media (max-width: 600px) {
-  .stats-row { grid-template-columns: repeat(3,1fr); gap: 7px; }
-  .stat-value { font-size: 20px; }
-  .combo-stats { grid-template-columns: repeat(3,1fr); }
-  .stakes-grid { grid-template-columns: 1fr 1fr; }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07070f;color:#f0f0f8;font-family:'DM Sans',sans-serif;min-height:100vh}
+#setup{position:fixed;inset:0;background:#07070f;z-index:999;display:none;align-items:center;justify-content:center;padding:20px}
+.scard{max-width:420px;width:100%;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.25);border-radius:24px;padding:32px;text-align:center}
+.kinput{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:white;padding:13px 16px;border-radius:12px;font-size:13px;outline:none;margin-bottom:14px;font-family:monospace;display:block}
+.bsave{width:100%;background:linear-gradient(135deg,#7c3aed,#4338ca);border:none;color:white;padding:14px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+header{background:rgba(7,7,15,0.95);border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:100;padding:0 20px}
+.hdr{max-width:820px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 0 10px}
+.licon{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#7c3aed,#4338ca);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.tabs{display:flex;gap:2px;max-width:820px;margin:0 auto}
+.tb{background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.35);padding:9px 14px;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;border-radius:8px 8px 0 0;transition:all 0.2s}
+.tb.on{color:#a78bfa;border-bottom-color:#7c3aed;background:rgba(124,58,237,0.12)}
+main{max-width:820px;margin:0 auto;padding:22px 20px 60px}
+.tc{display:none}.tc.on{display:block}
+.hero{text-align:center;padding:56px 20px;background:radial-gradient(ellipse at 50% 0%,rgba(124,58,237,0.12) 0%,transparent 70%);border-radius:24px;border:1px solid rgba(124,58,237,0.14);margin-bottom:24px}
+.bprim{background:linear-gradient(135deg,#7c3aed,#4338ca);border:none;color:white;padding:15px 42px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;box-shadow:0 8px 32px rgba(124,58,237,0.38);display:inline-flex;align-items:center;gap:10px;transition:all 0.25s}
+.bprim:disabled{opacity:0.5;cursor:not-allowed}
+.srow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.scard2{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;text-align:center}
+.sv{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin:5px 0 3px}
+.filters{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.fb{background:rgba(255,255,255,0.05);border:none;color:rgba(255,255,255,0.4);padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.fb.on{background:linear-gradient(135deg,#7c3aed,#4338ca);color:white}
+.tip{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:18px;overflow:hidden;margin-bottom:12px;animation:fu 0.4s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.tbody{padding:16px 18px}
+.ttop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tpred{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:10px;margin-bottom:4px}
+.tmeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.mp{background:rgba(255,255,255,0.05);border-radius:8px;padding:6px 12px;font-size:12px}
+.exbtn{background:none;border:none;color:rgba(255,255,255,0.25);font-size:12px;cursor:pointer;margin-top:10px;padding:4px 0;display:flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif}
+.tana{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07);display:none}
+.tana.on{display:block}
+.bsec{background:linear-gradient(135deg,#7c3aed,#4338ca);border:none;color:white;padding:13px 28px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;display:inline-flex;align-items:center;gap:10px;margin-bottom:22px}
+.bsec:disabled{opacity:0.5;cursor:not-allowed}
+.ccard{background:rgba(124,58,237,0.05);border:1px solid rgba(124,58,237,0.2);border-radius:18px;overflow:hidden;animation:fu 0.4s ease both}
+.cbody{padding:22px}
+.cstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.cs{background:rgba(255,255,255,0.04);border-radius:12px;padding:14px;text-align:center}
+.csv{font-family:'Syne',sans-serif;font-size:20px;font-weight:800}
+.csel{background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.abox{background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.sbox{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.15);border-radius:10px;padding:10px 14px;font-size:13px}
+.bkcard{background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.15);border-radius:18px;padding:22px;margin-bottom:18px}
+.bkinput{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;padding:12px 16px;border-radius:12px;font-size:28px;font-weight:800;font-family:'Syne',sans-serif;width:180px;outline:none}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.skcard{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px}
+.skamt{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;margin:8px 0 4px}
+.rcard{background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.15);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.wcard{background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.12);border-radius:14px;padding:14px 18px}
+.empty{text-align:center;padding:40px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);border-radius:16px}
+.bghost{background:rgba(124,58,237,0.12);border:1px solid rgba(124,58,237,0.25);color:#a78bfa;padding:10px 20px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px;font-family:'DM Sans',sans-serif}
+.fn{text-align:center;margin-top:24px;padding:14px;background:rgba(255,107,53,0.04);border:1px solid rgba(255,107,53,0.1);border-radius:12px;font-size:12px;color:rgba(255,255,255,0.25);line-height:1.6}
+.sp{width:18px;height:18px;border:2px solid rgba(255,255,255,0.25);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.kbtn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
 </style>
 </head>
 <body>
-
+<div id="setup">
+  <div class="scard">
+    <div style="font-size:52px;margin-bottom:16px">🔑</div>
+    <h2 style="font-family:'Syne',sans-serif;font-size:22px;margin-bottom:8px">Configurar API Key</h2>
+    <p style="color:rgba(255,255,255,0.45);font-size:13px;line-height:1.7;margin-bottom:24px">Ingresá tu API Key de Anthropic para activar la IA. Se guarda solo en tu navegador.</p>
+    <input type="password" id="ki" class="kinput" placeholder="sk-ant-api03-...">
+    <button class="bsave" onclick="saveKey()">Guardar y Entrar</button>
+    <div style="font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6">Tu key nunca se sube a internet.</div>
+  </div>
+</div>
 <header>
-  <div class="header-inner">
-    <div class="logo">
-      <div class="logo-icon">🎯</div>
+  <div class="hdr">
+    <div style="display:flex;align-items:center;gap:11px">
+      <div class="licon">🎯</div>
       <div>
-        <div class="logo-text"><span>Bet</span>Genius<span class="badge">AI</span></div>
-        <div class="logo-sub">Análisis deportivo con IA · Datos reales</div>
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800"><span style="color:#a78bfa">Bet</span>Genius<span style="font-size:9px;background:linear-gradient(90deg,#7c3aed,#4338ca);padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:1px;vertical-align:middle;margin-left:6px">AI</span></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px">Análisis deportivo con IA</div>
       </div>
     </div>
-    <div id="headerStatus"></div>
-  </div>
-  <div style="max-width:820px;margin:0 auto;padding:0 20px;">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tips')">🎯 Tips del Día</button>
-      <button class="tab-btn" onclick="switchTab('combo')">🔗 Combinadas</button>
-      <button class="tab-btn" onclick="switchTab('bankroll')">💰 Bankroll</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div id="hs"></div>
+      <button class="kbtn" onclick="resetKey()">🔑 Key</button>
     </div>
+  </div>
+  <div class="tabs">
+    <button class="tb on" onclick="sw('tips',this)">🎯 Tips del Día</button>
+    <button class="tb" onclick="sw('combo',this)">🔗 Combinadas</button>
+    <button class="tb" onclick="sw('bk',this)">💰 Bankroll</button>
   </div>
 </header>
-
 <main>
-
-  <!-- TIPS TAB -->
-  <div id="tab-tips" class="tab-content active">
+  <div id="tab-tips" class="tc on">
     <div id="hero">
       <div class="hero">
-        <span class="hero-icon">🤖</span>
-        <h1>Tips del Día con IA</h1>
-        <p>La IA analiza standings, forma reciente, estadísticas y probabilidades de los partidos de hoy para darte los mejores tips.</p>
-        <div class="hero-leagues">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League · 🇪🇸 La Liga · 🏀 NBA · 🌍 Euroliga</div>
-        <button class="btn-primary" id="generateBtn" onclick="generateTips()">
-          ✨ Generar 10 Tips de Hoy
-        </button>
-        <div class="disclaimer">⚠️ Solo análisis estadístico. No es asesoramiento financiero. Jugá responsablemente.</div>
+        <div style="font-size:58px;margin-bottom:18px">🤖</div>
+        <h1 style="font-family:'Syne',sans-serif;font-size:26px;margin-bottom:10px">Tips del Día con IA</h1>
+        <p style="color:rgba(255,255,255,0.45);font-size:14px;line-height:1.7;max-width:400px;margin:0 auto 8px">La IA analiza standings, forma reciente y probabilidades de los partidos de hoy.</p>
+        <div style="color:rgba(255,255,255,0.2);font-size:13px;margin-bottom:28px">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier · 🇪🇸 La Liga · 🏀 NBA · 🌍 Euroliga</div>
+        <button class="bprim" id="gbtn" onclick="genTips()">✨ Generar 10 Tips de Hoy</button>
+        <div style="margin-top:18px;font-size:11px;color:rgba(255,255,255,0.2)">⚠️ Solo análisis estadístico. No es asesoramiento financiero.</div>
       </div>
     </div>
-
-    <div id="tipsSection" style="display:none;">
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-icon">🎯</div>
-          <div class="stat-value" id="statTotal" style="color:#a78bfa">0</div>
-          <div class="stat-label">Tips Generados</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">✅</div>
-          <div class="stat-value" id="statHigh" style="color:#00e87a">0</div>
-          <div class="stat-label">Alta Probabilidad</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📊</div>
-          <div class="stat-value" id="statAvg" style="color:#f5a623">0%</div>
-          <div class="stat-label">Prob. Promedio</div>
-        </div>
+    <div id="tsec" style="display:none">
+      <div class="srow">
+        <div class="scard2"><div>🎯</div><div class="sv" id="st" style="color:#a78bfa">0</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Tips</div></div>
+        <div class="scard2"><div>✅</div><div class="sv" id="sh" style="color:#00e87a">0</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Alta Prob.</div></div>
+        <div class="scard2"><div>📊</div><div class="sv" id="sa" style="color:#f5a623">0%</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Promedio</div></div>
       </div>
-
       <div class="filters">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="filter-btn active" onclick="setFilter('todas',this)">Todas</button>
-          <button class="filter-btn" onclick="setFilter('futbol',this)">Fútbol</button>
-          <button class="filter-btn" onclick="setFilter('nba',this)">NBA</button>
-          <button class="filter-btn" onclick="setFilter('alta',this)">Alta Prob.</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="fb on" onclick="sf('t',this)">Todas</button>
+          <button class="fb" onclick="sf('f',this)">Fútbol</button>
+          <button class="fb" onclick="sf('n',this)">NBA</button>
+          <button class="fb" onclick="sf('a',this)">Alta Prob.</button>
         </div>
-        <button class="btn-regen" onclick="generateTips()">🔄 Regenerar</button>
+        <button style="background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);color:#a78bfa;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="genTips()">🔄 Regenerar</button>
       </div>
-
-      <div id="tipsList"></div>
-      <div class="footer-note">⚠️ BetGenius AI es una herramienta de análisis estadístico. No garantiza resultados. Las apuestas implican riesgo de pérdida. Jugá responsablemente.</div>
+      <div id="tlist"></div>
+      <div class="fn">⚠️ BetGenius AI es una herramienta de análisis estadístico. No garantiza resultados. Las apuestas implican riesgo de pérdida. Jugá responsablemente.</div>
     </div>
   </div>
-
-  <!-- COMBO TAB -->
-  <div id="tab-combo" class="tab-content">
-    <div class="section-title">🔗 Generador de Combinadas</div>
-    <div class="section-sub">La IA selecciona los mejores tips y los combina para maximizar el retorno con menor riesgo.</div>
-
-    <div id="comboEmpty" class="empty-state">
-      <div class="empty-icon">⚠️</div>
-      <div class="empty-text">Primero generá los tips del día</div>
-      <button class="btn-ghost" onclick="switchTab('tips')">Ir a Tips del Día →</button>
-    </div>
-
-    <div id="comboSection" style="display:none;">
-      <button class="btn-secondary" id="comboBtn" onclick="generateCombo()">
-        🔗 Generar Mejor Combinada
-      </button>
-      <div id="comboResult"></div>
-    </div>
+  <div id="tab-combo" class="tc">
+    <h2 style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:6px">🔗 Generador de Combinadas</h2>
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:22px">La IA selecciona los mejores tips y los combina para maximizar el retorno.</p>
+    <div id="ce" class="empty"><div style="font-size:36px;margin-bottom:12px">⚠️</div><div style="color:rgba(255,255,255,0.4);margin-bottom:16px;font-size:14px">Primero generá los tips del día</div><button class="bghost" onclick="document.querySelector('.tb').click()">Ir a Tips →</button></div>
+    <div id="cs" style="display:none"><button class="bsec" id="cbtn" onclick="genCombo()">🔗 Generar Mejor Combinada</button><div id="cr"></div></div>
   </div>
-
-  <!-- BANKROLL TAB -->
-  <div id="tab-bankroll" class="tab-content">
-    <div class="section-title">💰 Gestión de Bankroll</div>
-    <div class="section-sub">Ingresá tu capital y calculamos exactamente cuánto apostar en cada situación.</div>
-
-    <div class="bankroll-input-card">
-      <label class="input-label">Tu Bankroll Total (USD)</label>
-      <div class="input-row">
-        <span class="currency">$</span>
-        <input type="number" class="bankroll-input" id="bankrollInput" value="1000" oninput="updateStakes()">
-      </div>
+  <div id="tab-bk" class="tc">
+    <h2 style="font-family:'Syne',sans-serif;font-size:20px;margin-bottom:6px">💰 Gestión de Bankroll</h2>
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:22px">Ingresá tu capital y calculamos cuánto apostar en cada situación.</p>
+    <div class="bkcard">
+      <label style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:12px;display:block">Tu Bankroll Total (USD)</label>
+      <div style="display:flex;align-items:center;gap:10px"><span style="font-size:30px;color:#f5a623">$</span><input type="number" class="bkinput" id="bki" value="1000" oninput="updSt()"></div>
     </div>
-
-    <div class="stakes-grid">
-      <div class="stake-card">
-        <div class="stake-icon">🔒</div>
-        <div class="stake-amount" id="stake1" style="color:#00e87a">$10</div>
-        <div class="stake-name">Mínima (1%)</div>
-        <div class="stake-desc">Apuestas de muy bajo riesgo</div>
-      </div>
-      <div class="stake-card">
-        <div class="stake-icon">✅</div>
-        <div class="stake-amount" id="stake3" style="color:#7af542">$30</div>
-        <div class="stake-name">Conservadora (3%)</div>
-        <div class="stake-desc">Alta probabilidad (+75%)</div>
-      </div>
-      <div class="stake-card">
-        <div class="stake-icon">⚡</div>
-        <div class="stake-amount" id="stake5" style="color:#f5a623">$50</div>
-        <div class="stake-name">Estándar (5%)</div>
-        <div class="stake-desc">Probabilidad media-alta</div>
-      </div>
-      <div class="stake-card">
-        <div class="stake-icon">🎯</div>
-        <div class="stake-amount" id="stake8" style="color:#ff6b35">$80</div>
-        <div class="stake-name">Agresiva (8%)</div>
-        <div class="stake-desc">Solo cuando estás muy seguro</div>
-      </div>
+    <div class="sgrid">
+      <div class="skcard"><div style="font-size:20px">🔒</div><div class="skamt" id="s1" style="color:#00e87a">$10</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">Mínima (1%)</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">Muy bajo riesgo</div></div>
+      <div class="skcard"><div style="font-size:20px">✅</div><div class="skamt" id="s3" style="color:#7af542">$30</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">Conservadora (3%)</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">Alta prob.</div></div>
+      <div class="skcard"><div style="font-size:20px">⚡</div><div class="skamt" id="s5" style="color:#f5a623">$50</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">Estándar (5%)</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">Prob. media-alta</div></div>
+      <div class="skcard"><div style="font-size:20px">🎯</div><div class="skamt" id="s8" style="color:#ff6b35">$80</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">Agresiva (8%)</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">Solo si estás seguro</div></div>
     </div>
-
-    <div class="rules-card">
-      <div class="rules-title">📋 Reglas de Oro</div>
-      <div class="rule-item"><span class="rule-num">1.</span> Nunca apostés más del 5% en una apuesta individual.</div>
-      <div class="rule-item"><span class="rule-num">2.</span> En combinadas, máximo 2-3% — el riesgo se multiplica.</div>
-      <div class="rule-item"><span class="rule-num">3.</span> Si perdés el 20% del bankroll, tomá una pausa de 1 semana.</div>
-      <div class="rule-item"><span class="rule-num">4.</span> Registrá TODAS tus apuestas para analizar tu rendimiento real.</div>
-      <div class="rule-item"><span class="rule-num">5.</span> El bankroll debe ser dinero que podés perder sin afectar tu vida.</div>
+    <div class="rcard">
+      <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#a78bfa;margin-bottom:12px">📋 Reglas de Oro</div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:rgba(255,255,255,0.5)"><span style="color:#7c3aed;font-weight:700;flex-shrink:0">1.</span>Nunca apostés más del 5% en una apuesta individual.</div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:rgba(255,255,255,0.5)"><span style="color:#7c3aed;font-weight:700;flex-shrink:0">2.</span>En combinadas, máximo 2-3% del bankroll.</div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:rgba(255,255,255,0.5)"><span style="color:#7c3aed;font-weight:700;flex-shrink:0">3.</span>Si perdés el 20%, tomá una pausa de 1 semana.</div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;font-size:13px;color:rgba(255,255,255,0.5)"><span style="color:#7c3aed;font-weight:700;flex-shrink:0">4.</span>Registrá TODAS tus apuestas para analizar tu rendimiento.</div>
+      <div style="display:flex;gap:10px;font-size:13px;color:rgba(255,255,255,0.5)"><span style="color:#7c3aed;font-weight:700;flex-shrink:0">5.</span>El bankroll debe ser dinero que podés perder sin afectar tu vida.</div>
     </div>
-
-    <div class="warning-card">
-      <div class="warning-title">⚠️ Juego Responsable</div>
-      <div class="warning-text">Las apuestas deportivas implican riesgo real de pérdida económica. BetGenius AI es una herramienta de análisis estadístico y no garantiza resultados. Si el juego es un problema, buscá ayuda profesional.</div>
-    </div>
+    <div class="wcard"><div style="font-size:12px;color:#ff6b35;font-weight:600;margin-bottom:6px">⚠️ Juego Responsable</div><div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.7">Las apuestas deportivas implican riesgo real de pérdida económica. BetGenius AI no garantiza resultados.</div></div>
   </div>
-
 </main>
-
 <script>
-// ============================================================
-// CONFIG — PONÉ TU API KEY ACÁ
-// ============================================================
-const API_KEY = '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';
-// ============================================================
-
-let allTips = [];
-let currentFilter = 'todas';
-
-const LEAGUE_STYLES = {
-  'Premier League': { accent: '#00e87a', badgeBg: 'rgba(0,232,122,0.12)', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  'La Liga':        { accent: '#ff6b35', badgeBg: 'rgba(255,107,53,0.12)', icon: '🇪🇸' },
-  'NBA':            { accent: '#f5a623', badgeBg: 'rgba(245,166,35,0.12)', icon: '🏀' },
-  'Euroliga':       { accent: '#00d4ff', badgeBg: 'rgba(0,212,255,0.12)', icon: '🌍' },
-  'Combinada':      { accent: '#a78bfa', badgeBg: 'rgba(167,139,250,0.12)', icon: '🔗' },
-  'Especial':       { accent: '#ff4da6', badgeBg: 'rgba(255,77,166,0.12)', icon: '⭐' },
-};
-
-function getRisk(prob) {
-  if (prob >= 75) return { label: 'MUY ALTA', color: '#00e87a', bg: 'rgba(0,232,122,0.1)' };
-  if (prob >= 62) return { label: 'ALTA',     color: '#7af542', bg: 'rgba(122,245,66,0.1)' };
-  if (prob >= 48) return { label: 'MEDIA',    color: '#f5a623', bg: 'rgba(245,166,35,0.1)' };
-  return              { label: 'ESPECIAL',    color: '#ff6b35', bg: 'rgba(255,107,53,0.1)' };
-}
-
-function probCircleSVG(value, color) {
-  const r = 30, circ = 2 * Math.PI * r;
-  const offset = circ - (value / 100) * circ;
-  return `<svg width="76" height="76" class="prob-circle">
-    <circle cx="38" cy="38" r="${r}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="5"/>
-    <circle cx="38" cy="38" r="${r}" fill="none" stroke="${color}" stroke-width="5"
-      stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
-      transform="rotate(-90 38 38)" style="transition:stroke-dashoffset 1s ease"/>
-    <text x="38" y="43" text-anchor="middle" fill="white" font-size="13" font-weight="800" font-family="Syne,sans-serif">${value}%</text>
-  </svg>`;
-}
-
-function renderTip(tip, index, bankroll) {
-  const ls = LEAGUE_STYLES[tip.league] || { accent: '#7c3aed', badgeBg: 'rgba(124,58,237,0.12)', icon: '🎯' };
-  const risk = getRisk(tip.probability);
-  const stakeAmt = ((bankroll * tip.stake_pct) / 100).toFixed(0);
-  const stars = '⭐'.repeat(Math.min(Math.round((tip.value_rating || 7) / 2), 5));
-  const statsHtml = (tip.stats || []).map(s =>
-    `<div class="stat-line"><span class="stat-dot" style="color:${ls.accent}">▸</span>${s}</div>`
-  ).join('');
-
-  return `<div class="tip-card" style="animation-delay:${index*0.07}s">
-    <div class="tip-accent" style="background:linear-gradient(90deg,${ls.accent},transparent)"></div>
-    <div class="tip-body">
-      <div class="tip-top">
-        <div class="tip-left">
-          <div class="tip-badges">
-            <span class="badge-league" style="background:${ls.badgeBg};color:${ls.accent}">${ls.icon} ${tip.league}</span>
-            <span class="badge-risk" style="background:${risk.bg};color:${risk.color}">● ${risk.label}</span>
-            <span class="badge-time">${tip.date || ''} · ${tip.time || ''}</span>
-          </div>
-          <div class="tip-match">${tip.match}</div>
-          <div class="tip-prediction" style="background:${ls.accent}12;border:1px solid ${ls.accent}25">
-            <span class="pred-main" style="color:${ls.accent}">${tip.prediction}</span>
-            <span class="pred-sep">·</span>
-            <span class="pred-type">${tip.bet_type}</span>
-          </div>
-        </div>
-        ${probCircleSVG(tip.probability, risk.color)}
-      </div>
-      <div class="tip-meta">
-        <div class="meta-pill"><span class="meta-label">Cuota: </span><span class="meta-val" style="color:${ls.accent}">@${tip.odds_min}–${tip.odds_max}</span></div>
-        <div class="meta-pill"><span class="meta-label">Stake: </span><span class="meta-val" style="color:#f5a623">${tip.stake_pct}% · $${stakeAmt}</span></div>
-        <div class="meta-pill"><span class="meta-label">Valor: </span><span class="meta-val">${stars}</span></div>
-      </div>
-      <button class="expand-btn" onclick="toggleAnalysis(this)">▼ Ver análisis completo</button>
-      <div class="tip-analysis">
-        <p class="analysis-text">${tip.analysis}</p>
-        ${statsHtml}
-      </div>
-    </div>
-  </div>`;
-}
-
-function toggleAnalysis(btn) {
-  const el = btn.nextElementSibling;
-  el.classList.toggle('open');
-  btn.textContent = el.classList.contains('open') ? '▲ Ocultar análisis' : '▼ Ver análisis completo';
-}
-
-function renderTips() {
-  const bankroll = parseInt(document.getElementById('bankrollInput').value) || 1000;
-  let tips = allTips;
-  if (currentFilter === 'futbol') tips = tips.filter(t => t.sport === 'futbol');
-  if (currentFilter === 'nba') tips = tips.filter(t => t.league === 'NBA');
-  if (currentFilter === 'alta') tips = tips.filter(t => t.probability >= 65);
-  document.getElementById('tipsList').innerHTML = tips.length
-    ? tips.map((t,i) => renderTip(t, i, bankroll)).join('')
-    : '<div class="no-tips">No hay tips con ese filtro.</div>';
-}
-
-function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderTips();
-}
-
-function updateStats() {
-  const high = allTips.filter(t => t.probability >= 65).length;
-  const avg = allTips.length ? Math.round(allTips.reduce((a,t) => a+t.probability, 0) / allTips.length) : 0;
-  document.getElementById('statTotal').textContent = allTips.length;
-  document.getElementById('statHigh').textContent = high;
-  document.getElementById('statAvg').textContent = avg + '%';
-}
-
-async function generateTips() {
-  const btn = document.getElementById('generateBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Analizando partidos...';
-
-  const today = new Date().toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
-  const prompt = `Eres un experto analista de apuestas deportivas con 15 años de experiencia. Hoy es ${today}.
-
-Datos reales disponibles:
-=== NBA STANDINGS 2025-26 ===
-TOP OESTE: OKC Thunder (64-18) | San Antonio Spurs (62-20) | Denver Nuggets (54-28) | Lakers (53-29) | Houston Rockets (52-30)
-TOP ESTE: Detroit Pistons (60-22) | Boston Celtics (56-26) | New York Knicks (53-29) | Cleveland (52-30) | Toronto (46-36)
-Playoffs NBA en curso.
-
-=== PREMIER LEAGUE PRÓXIMOS ===
-Burnley vs Man City: Man City 84.9% | Empate 9.9% | Burnley 5.2%
-Bournemouth vs Leeds: Bournemouth 47.4% | Empate 26.4% | Leeds 26.2%
-Liverpool vs Crystal Palace: Liverpool 65.5% | Empate 19.4% | Palace 15.1%
-Arsenal vs Newcastle: Arsenal 65.4% | Empate 19.5% | Newcastle 15.1%
-
-=== LA LIGA PRÓXIMOS ===
-Barcelona vs Celta Vigo: Barcelona 78.4% | Empate 12.7% | Celta 8.9%
-Real Betis vs Real Madrid: Real Madrid 50.4% | Empate 23.5% | Betis 26.1%
-Getafe vs Barcelona: Barcelona 64.9% | Empate 20.5% | Getafe 14.6%
-Villarreal vs Real Oviedo: Villarreal 46.1% | Empate 27.9% | Oviedo 26%
-
-Genera exactamente 10 tips: 4 fútbol, 3 NBA, 1 Euroliga, 1 combinada, 1 especial.
-
-Responde SOLO en JSON sin texto adicional ni backticks:
-{"tips":[{"id":1,"league":"Premier League","sport":"futbol","match":"Burnley vs Manchester City","date":"Mié 22 Abr","time":"16:00","bet_type":"Victoria Visitante","prediction":"Manchester City Gana","probability":83,"odds_min":1.18,"odds_max":1.28,"stake_pct":4,"analysis":"Análisis detallado aquí...","stats":["Stat 1","Stat 2","Stat 3"],"value_rating":8}]}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = (data.content || []).map(b => b.text || '').join('');
-    const clean = text.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-    allTips = parsed.tips || [];
-
-    document.getElementById('hero').style.display = 'none';
-    document.getElementById('tipsSection').style.display = 'block';
-    document.getElementById('comboEmpty').style.display = 'none';
-    document.getElementById('comboSection').style.display = 'block';
-    document.getElementById('headerStatus').innerHTML =
-      `<div style="background:rgba(0,232,122,0.08);border:1px solid rgba(0,232,122,0.2);border-radius:20px;padding:5px 12px;font-size:12px;color:#00e87a;font-weight:600">✓ ${allTips.length} tips listos</div>`;
-
-    updateStats();
-    renderTips();
-  } catch(e) {
-    alert('Error al generar tips. Verificá tu API Key e intentá de nuevo.');
-    console.error(e);
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '✨ Generar 10 Tips de Hoy';
-}
-
-async function generateCombo() {
-  const btn = document.getElementById('comboBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Calculando...';
-
-  const highProb = allTips.filter(t => t.probability >= 60).slice(0, 5);
-  const prompt = `Eres un experto en apuestas deportivas. Con estos tips de alta probabilidad, creá la MEJOR combinada posible (2-3 selecciones máximo):
-${JSON.stringify(highProb.map(t => ({partido: t.match, apuesta: t.prediction, prob: t.probability, cuota_min: t.odds_min})))}
-Responde SOLO en JSON sin backticks:
-{"combo":{"selections":[{"match":"...","bet":"...","odds":1.20,"prob":80}],"total_odds":2.45,"combined_prob":58,"stake_pct":2,"potential_multiplier":2.45,"analysis":"Análisis detallado...","risk_level":"MEDIA"}}`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = (data.content || []).map(b => b.text || '').join('');
-    const clean = text.replace(/```json|```/g, '').trim();
-    const { combo } = JSON.parse(clean);
-    const bankroll = parseInt(document.getElementById('bankrollInput').value) || 1000;
-    const stakeAmt = ((bankroll * combo.stake_pct) / 100).toFixed(0);
-
-    const selectionsHtml = (combo.selections || []).map(s => `
-      <div class="combo-selection">
-        <div><div class="sel-match">${s.match}</div><div class="sel-bet">${s.bet}</div></div>
-        <div><div class="sel-odds">@${s.odds}</div><div class="sel-prob">${s.prob}% prob.</div></div>
-      </div>`).join('');
-
-    document.getElementById('comboResult').innerHTML = `
-      <div class="combo-card">
-        <div class="combo-accent"></div>
-        <div class="combo-body">
-          <div class="combo-title">🔗 Combinada Recomendada por IA</div>
-          ${selectionsHtml}
-          <div class="combo-stats">
-            <div class="combo-stat"><div class="combo-stat-val" style="color:#a78bfa">@${combo.total_odds}</div><div class="combo-stat-label">Cuota Total</div></div>
-            <div class="combo-stat"><div class="combo-stat-val" style="color:#00e87a">${combo.combined_prob}%</div><div class="combo-stat-label">Prob. Combinada</div></div>
-            <div class="combo-stat"><div class="combo-stat-val" style="color:#f5a623">×${combo.potential_multiplier}</div><div class="combo-stat-label">Multiplicador</div></div>
-          </div>
-          <div class="analysis-box">
-            <div class="analysis-box-title">💡 Análisis IA</div>
-            <p>${combo.analysis}</p>
-          </div>
-          <div class="stake-box">
-            <span style="color:#f5a623">💰 Stake recomendado: </span>
-            <span style="color:rgba(255,255,255,0.7);font-weight:600">${combo.stake_pct}% de tu bankroll · $${stakeAmt}</span>
-          </div>
-        </div>
-      </div>`;
-  } catch(e) {
-    alert('Error generando combinada. Intentá de nuevo.');
-    console.error(e);
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = '🔗 Generar Mejor Combinada';
-}
-
-function updateStakes() {
-  const b = parseInt(document.getElementById('bankrollInput').value) || 0;
-  document.getElementById('stake1').textContent = '$' + Math.round(b*0.01);
-  document.getElementById('stake3').textContent = '$' + Math.round(b*0.03);
-  document.getElementById('stake5').textContent = '$' + Math.round(b*0.05);
-  document.getElementById('stake8').textContent = '$' + Math.round(b*0.08);
-  if (allTips.length) renderTips();
-}
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
+const K={g:()=>localStorage.getItem('bg_k')||'',s:v=>localStorage.setItem('bg_k',v),d:()=>localStorage.removeItem('bg_k')};
+let tips=[],filt='t';
+const LS={'Premier League':{a:'#00e87a',b:'rgba(0,232,122,0.12)',i:'🏴'},'La Liga':{a:'#ff6b35',b:'rgba(255,107,53,0.12)',i:'🇪🇸'},'NBA':{a:'#f5a623',b:'rgba(245,166,35,0.12)',i:'🏀'},'Euroliga':{a:'#00d4ff',b:'rgba(0,212,255,0.12)',i:'🌍'},'Combinada':{a:'#a78bfa',b:'rgba(167,139,250,0.12)',i:'🔗'},'Especial':{a:'#ff4da6',b:'rgba(255,77,166,0.12)',i:'⭐'}};
+function rk(p){if(p>=75)return{l:'MUY ALTA',c:'#00e87a',b:'rgba(0,232,122,0.1)'};if(p>=62)return{l:'ALTA',c:'#7af542',b:'rgba(122,245,66,0.1)'};if(p>=48)return{l:'MEDIA',c:'#f5a623',b:'rgba(245,166,35,0.1)'};return{l:'ESPECIAL',c:'#ff6b35',b:'rgba(255,107,53,0.1)'};}
+function circ(v,c){const r=30,ci=2*Math.PI*r,off=ci-(v/100)*ci;return '<svg width="76" height="76"><circle cx="38" cy="38" r="'+r+'" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="5"/><circle cx="38" cy="38" r="'+r+'" fill="none" stroke="'+c+'" stroke-width="5" stroke-dasharray="'+ci+'" stroke-dashoffset="'+off+'" stroke-linecap="round" transform="rotate(-90 38 38)" style="transition:stroke-dashoffset 1s ease"/><text x="38" y="43" text-anchor="middle" fill="white" font-size="13" font-weight="800" font-family="Syne,sans-serif">'+v+'%</text></svg>';}
+function rTip(t,i,bk){const ls=LS[t.league]||{a:'#7c3aed',b:'rgba(124,58,237,0.12)',i:'🎯'};const r=rk(t.probability);const amt=((bk*t.stake_pct)/100).toFixed(0);const stars='⭐'.repeat(Math.min(Math.round((t.value_rating||7)/2),5));const stats=(t.stats||[]).map(s=>'<div style="display:flex;gap:8px;margin-bottom:6px;font-size:12px;color:rgba(255,255,255,0.35)"><span style="color:'+ls.a+'">▸</span>'+s+'</div>').join('');return '<div class="tip" style="animation-delay:'+i*0.07+'s"><div style="height:3px;background:linear-gradient(90deg,'+ls.a+',transparent)"></div><div class="tbody"><div class="ttop"><div style="flex:1"><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;align-items:center"><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;background:'+ls.b+';color:'+ls.a+'">'+ls.i+' '+t.league+'</span><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;background:'+r.b+';color:'+r.c+'">● '+r.l+'</span><span style="font-size:11px;color:rgba(255,255,255,0.25)">'+(t.date||'')+' · '+(t.time||'')+'</span></div><div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;margin-bottom:9px;line-height:1.3">'+t.match+'</div><div class="tpred" style="background:'+ls.a+'15;border:1px solid '+ls.a+'25"><span style="font-weight:800;font-size:15px;color:'+ls.a+'">'+t.prediction+'</span><span style="color:rgba(255,255,255,0.2)">·</span><span style="color:rgba(255,255,255,0.4);font-size:12px">'+t.bet_type+'</span></div></div>'+circ(t.probability,r.c)+'</div><div class="tmeta"><div class="mp"><span style="color:rgba(255,255,255,0.4)">Cuota: </span><span style="font-weight:700;color:'+ls.a+'">@'+t.odds_min+'–'+t.odds_max+'</span></div><div class="mp"><span style="color:rgba(255,255,255,0.4)">Stake: </span><span style="font-weight:700;color:#f5a623">'+t.stake_pct+'% · $'+amt+'</span></div><div class="mp"><span style="color:rgba(255,255,255,0.4)">Valor: </span>'+stars+'</div></div><button class="exbtn" onclick="ta(this)">▼ Ver análisis completo</button><div class="tana"><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75;margin-bottom:12px">'+t.analysis+'</p>'+stats+'</div></div></div>';}
+function ta(b){const e=b.nextElementSibling;e.classList.toggle('on');b.textContent=e.classList.contains('on')?'▲ Ocultar análisis':'▼ Ver análisis completo';}
+function rTips(){const bk=parseInt(document.getElementById('bki').value)||1000;let t=tips;if(filt==='f')t=t.filter(x=>x.sport==='futbol');if(filt==='n')t=t.filter(x=>x.league==='NBA');if(filt==='a')t=t.filter(x=>x.probability>=65);document.getElementById('tlist').innerHTML=t.length?t.map((x,i)=>rTip(x,i,bk)).join(''):'<div style="text-align:center;color:rgba(255,255,255,0.4);padding:30px;font-size:14px">No hay tips con ese filtro.</div>';}
+function sf(f,b){filt=f;document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');rTips();}
+function updSt(){const b=parseInt(document.getElementById('bki').value)||0;document.getElementById('s1').textContent='$'+Math.round(b*0.01);document.getElementById('s3').textContent='$'+Math.round(b*0.03);document.getElementById('s5').textContent='$'+Math.round(b*0.05);document.getElementById('s8').textContent='$'+Math.round(b*0.08);if(tips.length)rTips();}
+function sw(tab,btn){document.querySelectorAll('.tc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));document.getElementById('tab-'+tab).classList.add('on');if(btn)btn.classList.add('on');}
+function saveKey(){const k=document.getElementById('ki').value.trim();if(!k.startsWith('sk-ant-')){alert('La key no es válida. Debe empezar con sk-ant-');return;}K.s(k);document.getElementById('setup').style.display='none';}
+function resetKey(){K.d();document.getElementById('setup').style.display='flex';}
+function chkKey(){if(!K.g())document.getElementById('setup').style.display='flex';}
+async function callAPI(msgs,max){const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':K.g(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:max||4000,messages:msgs})});const d=await r.json();return(d.content||[]).map(b=>b.text||'').join('');}
+async function genTips(){const btn=document.getElementById('gbtn');btn.disabled=true;btn.innerHTML='<span class="sp"></span> Analizando...';const today=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});const p='Eres experto analista de apuestas deportivas con 15 anos de experiencia. Hoy es '+today+'.\nDATO NBA 2025-26: OKC(64-18)|Spurs(62-20)|Nuggets(54-28)|Lakers(53-29)|Detroit ESTE(60-22)|Celtics(56-26)|Knicks(53-29). Playoffs en curso.\nPREMIER: Burnley vs Man City(Man City 84.9%)|Bournemouth vs Leeds(Bournemouth 47.4%)|Liverpool vs Palace(Liverpool 65.5%)|Arsenal vs Newcastle(Arsenal 65.4%)\nLA LIGA: Barcelona vs Celta(Barca 78.4%)|Betis vs Real Madrid(RM 50.4%)|Getafe vs Barcelona(Barca 64.9%)\nGenera exactamente 10 tips: 4 futbol, 3 NBA, 1 Euroliga, 1 combinada, 1 especial.\nResponde SOLO JSON sin texto ni backticks:\n{"tips":[{"id":1,"league":"Premier League","sport":"futbol","match":"Burnley vs Manchester City","date":"Jue 24 Abr","time":"16:00","bet_type":"Victoria Visitante","prediction":"Manchester City Gana","probability":83,"odds_min":1.18,"odds_max":1.28,"stake_pct":4,"analysis":"Analisis aqui...","stats":["Stat 1","Stat 2","Stat 3"],"value_rating":8}]}';
+try{const text=await callAPI([{role:'user',content:p}]);const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());tips=parsed.tips||[];document.getElementById('hero').style.display='none';document.getElementById('tsec').style.display='block';document.getElementById('ce').style.display='none';document.getElementById('cs').style.display='block';document.getElementById('hs').innerHTML='<div style="background:rgba(0,232,122,0.08);border:1px solid rgba(0,232,122,0.2);border-radius:20px;padding:5px 12px;font-size:12px;color:#00e87a;font-weight:600">✓ '+tips.length+' tips</div>';const high=tips.filter(t=>t.probability>=65).length;const avg=Math.round(tips.reduce((a,t)=>a+t.probability,0)/tips.length);document.getElementById('st').textContent=tips.length;document.getElementById('sh').textContent=high;document.getElementById('sa').textContent=avg+'%';rTips();}catch(e){alert('Error al generar tips. Verificá tu API Key.');console.error(e);}
+btn.disabled=false;btn.innerHTML='✨ Generar 10 Tips de Hoy';}
+async function genCombo(){const btn=document.getElementById('cbtn');btn.disabled=true;btn.innerHTML='<span class="sp"></span> Calculando...';const high=tips.filter(t=>t.probability>=60).slice(0,5);const p='Con estos tips crea la MEJOR combinada (2-3 selecciones max):\n'+JSON.stringify(high.map(t=>({partido:t.match,apuesta:t.prediction,prob:t.probability,cuota:t.odds_min})))+'\nResponde SOLO JSON sin backticks:\n{"combo":{"selections":[{"match":"...","bet":"...","odds":1.20,"prob":80}],"total_odds":2.45,"combined_prob":58,"stake_pct":2,"potential_multiplier":2.45,"analysis":"...","risk_level":"MEDIA"}}';
+try{const text=await callAPI([{role:'user',content:p}],1000);const {combo}=JSON.parse(text.replace(/```json|```/g,'').trim());const b=parseInt(document.getElementById('bki').value)||1000;const amt=((b*combo.stake_pct)/100).toFixed(0);document.getElementById('cr').innerHTML='<div class="ccard"><div style="height:3px;background:linear-gradient(90deg,#7c3aed,#4338ca,#7c3aed)"></div><div class="cbody"><h2 style="font-family:Syne,sans-serif;font-size:18px;margin-bottom:16px">🔗 Combinada Recomendada por IA</h2>'+(combo.selections||[]).map(s=>'<div class="csel"><div><div style="font-size:14px;font-weight:600;margin-bottom:3px">'+s.match+'</div><div style="font-size:12px;color:rgba(255,255,255,0.4)">'+s.bet+'</div></div><div><div style="color:#a78bfa;font-weight:800;font-size:16px;text-align:right">@'+s.odds+'</div><div style="font-size:11px;color:rgba(255,255,255,0.35);text-align:right">'+s.prob+'% prob.</div></div></div>').join('')+'<div class="cstats"><div class="cs"><div class="csv" style="color:#a78bfa">@'+combo.total_odds+'</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">Cuota Total</div></div><div class="cs"><div class="csv" style="color:#00e87a">'+combo.combined_prob+'%</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">Prob. Combinada</div></div><div class="cs"><div class="csv" style="color:#f5a623">x'+combo.potential_multiplier+'</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">Multiplicador</div></div></div><div class="abox"><div style="font-size:12px;color:#a78bfa;font-weight:600;margin-bottom:6px">💡 Análisis IA</div><p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75">'+combo.analysis+'</p></div><div class="sbox"><span style="color:#f5a623">💰 Stake: </span><span style="color:rgba(255,255,255,0.7);font-weight:600">'+combo.stake_pct+'% · $'+amt+'</span></div></div></div>';}catch(e){alert('Error generando combinada.');console.error(e);}
+btn.disabled=false;btn.innerHTML='🔗 Generar Mejor Combinada';}
+window.addEventListener('load',chkKey);
 </script>
 </body>
 </html>
